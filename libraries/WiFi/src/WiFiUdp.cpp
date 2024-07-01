@@ -24,6 +24,8 @@
 #undef write
 #undef read
 
+unsigned char FAB_BULK[1460];
+
 WiFiUDP::WiFiUDP()
 : udp_server(-1)
 , server_port(0)
@@ -201,7 +203,7 @@ size_t WiFiUDP::write(const uint8_t *buffer, size_t size){
     write(buffer[i]);
   return i;
 }
-
+/*
 int WiFiUDP::parsePacket(){
   if(rx_buffer)
     return 0;
@@ -228,7 +230,29 @@ int WiFiUDP::parsePacket(){
   delete[] buf;
   return len;
 }
+*/
 
+int WiFiUDP::parsePacket(){
+  if(rx_buffer)
+    return 0;
+  struct sockaddr_in si_other;
+  int slen = sizeof(si_other) , len;
+  char * buf = (char *)&FAB_BULK[0];
+  if ((len = recvfrom(udp_server, buf, 1460, MSG_DONTWAIT, (struct sockaddr *) &si_other, (socklen_t *)&slen)) == -1){
+    if(errno == EWOULDBLOCK){
+      return 0;
+    }
+    log_e("could not receive data: %d", errno);
+    return 0;
+  }
+  remote_ip = IPAddress(si_other.sin_addr.s_addr);
+  remote_port = ntohs(si_other.sin_port);
+  if (len > 0) {
+    rx_buffer = new cbuf(len);
+    rx_buffer->write(buf, len);
+  }
+  return len;
+}
 int WiFiUDP::available(){
   if(!rx_buffer) return 0;
   return rx_buffer->available();

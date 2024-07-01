@@ -39,6 +39,8 @@
 #include <Udp.h>
 #include <cbuf.h>
 
+extern unsigned char FAB_BULK[1460];
+
 class WiFiUDP : public UDP {
 private:
   int udp_server;

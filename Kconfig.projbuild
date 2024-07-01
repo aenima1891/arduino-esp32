@@ -321,5 +321,9 @@ config ARDUINO_SELECTIVE_Wire
     depends on ARDUINO_SELECTIVE_COMPILATION
     default y
 
+config ARDUINO_SELECTIVE_ArduinoJson
+    bool "Enable ArduinoJson"
+    depends on ARDUINO_SELECTIVE_COMPILATION
+    default y
 
 endmenu

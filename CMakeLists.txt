@@ -76,6 +76,7 @@ set(LIBRARY_SRCS
   libraries/WiFi/src/WiFiSTA.cpp
   libraries/WiFi/src/WiFiUdp.cpp
   libraries/Wire/src/Wire.cpp
+  libraries/ArduinoJson/src/ArduinoJson.cpp
   )
 
 set(AZURE_SRCS
@@ -201,6 +202,7 @@ set(COMPONENT_ADD_INCLUDEDIRS
   libraries/WiFiClientSecure/src
   libraries/WiFi/src
   libraries/Wire/src
+  libraries/ArduinoJson/src
   )
 
 set(COMPONENT_PRIV_INCLUDEDIRS cores/esp32/libb64)
